@@ -1,3 +1,3 @@
 ﻿  main.cpp
-C:\Users\86155\Desktop\udp_rec\Project1\main.cpp(61,76): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
-  Project1.vcxproj -> C:\Users\86155\Desktop\udp_rec\x64\Debug\Project1.exe
+C:\Users\86155\Desktop\UDP\udp_rec\Project1\main.cpp(34,27): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  Project1.vcxproj -> C:\Users\86155\Desktop\UDP\udp_rec\x64\Debug\Project1.exe

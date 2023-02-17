@@ -28,6 +28,11 @@ int main() {
         printf("Failed socket() \n");
         return 0;
     }
+    struct sockaddr_in sin;
+    sin.sin_family = AF_INET;
+    sin.sin_port = htons(5008);
+    sin.sin_addr.s_addr = inet_addr("172.16.5.35");//接收端IP地址
+
     SOCKADDR_IN addr_Server; //服务器的地址等信息
     addr_Server.sin_family = AF_INET;
     addr_Server.sin_port = htons(8881);
@@ -37,39 +42,26 @@ int main() {
         return 0;
     }
     SOCKADDR_IN addr_Clt;
-
+    printf("APP begin \n");
     int fromlen = sizeof(SOCKADDR);
+
+    //sendto(sockSrv, sendBuf, strlen(sendBuf) + 1, 0, (SOCKADDR*)&addrClient, len);
+
+
     while (true) {
         int last = recvfrom(sockServer, receBuf, 2048, 0, (SOCKADDR*)&addr_Clt, &fromlen);
         if (last > 0) {      //判断接收到的数据是否为空
             receBuf[last] = '\0';//给字符数组加一个'\0'，表示结束了。不然输出有乱码
 
-                for (size_t i = 0; i < last - data_move; i++)
-                {
-                    printf("%02x", (unsigned char)receBuf[i + data_move]);
-                   
-                }
-                for (size_t i = 0; i < last - data_move-1; i++)
-                {
-                    sum = (unsigned char)receBuf[i + data_move] + sum;
-                }
-                printf("\n");
-                printf("接收到数据CRC ：  校验和 : %02x \n", (unsigned char)receBuf[rec_crc]);
-                printf("本地计算数据CRC ：  校验和 : %02x \n", sum&0xff );
-                sum = 0;
-
-                printf("接收到数据（%s） ：  命令码 : %02x \n", inet_ntoa(addr_Clt.sin_addr) ,(unsigned char)receBuf[cmd]);
-                if ((unsigned char)receBuf[cmd] == 0xc1) {
-                    printf("帧头 : %02x  ", (unsigned char)receBuf[data_head]);
-                    printf("帧ID : %02d\n", (unsigned char)receBuf[2 + data_move]);
-                    printf("漏电流预警 : %02x  ", (unsigned char)receBuf[1015 + data_move]);
-                    printf("漏电流报警 : %02x \n", (unsigned char)receBuf[1016 + data_move]);
-                    printf("************************************************************ \n");
-                } 
-                if ((unsigned char)receBuf[cmd] == 0xc0) {
-                    printf("故障数据帧ID : %02d\n", (unsigned char)receBuf[2 + data_move]);
-                     
-                }
+               //for (size_t i = 0; i < last - data_move; i++)
+               //{
+               //    printf("%02x", (unsigned char)receBuf[i + data_move]);
+               //   
+               //}
+               //printf("\n");
+       sendto(sockServer, receBuf, 2048, 0, (struct sockaddr*)&sin, sizeof(struct sockaddr));
+              
+     
         }
        
     }
